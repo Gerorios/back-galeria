@@ -23,4 +23,10 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
     Route::post('/locales/{localId}/imagenes', [LocalController::class, 'agregarImagen']);
     Route::get('/locales/{localId}/imagenes', [LocalController::class, 'listarImagenes']);
 });
+//RUTA PARA OBTENER TODO LOS LOCALES Y LO PUEDAN VER LOS USUARIOS
+Route::prefix('locales')->group(function () {
+    Route::get('/', [LocalController::class, 'index']);
+    Route::get('/{id}', [LocalController::class, 'show']);
+    Route::get('/locales/{localId}/imagenes', [LocalController::class, 'listarImagenes']);
+});
 

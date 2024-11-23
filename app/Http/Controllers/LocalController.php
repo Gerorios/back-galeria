@@ -25,7 +25,7 @@ class LocalController extends Controller
             'estado' => 'required|in:libre,ocupado',
             'direccion' => 'nullable|string|max:255',
             'tamano' => 'nullable|string|max:255',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         if ($request->hasFile('imagen')) {
@@ -56,7 +56,7 @@ class LocalController extends Controller
             'estado' => 'required|in:libre,ocupado',
             'direccion' => 'nullable|string|max:255',
             'tamano' => 'nullable|string|max:255',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         if ($request->hasFile('imagen')) {
