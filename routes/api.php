@@ -30,3 +30,7 @@ Route::prefix('locales')->group(function () {
     Route::get('/locales/{localId}/imagenes', [LocalController::class, 'listarImagenes']);
 });
 
+Route::prefix('prueba')->group(function(){
+    Route::get('/', [LocalController::class, 'test']);
+});
+

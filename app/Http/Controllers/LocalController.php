@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Local;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class LocalController extends Controller
 {
@@ -27,14 +28,17 @@ class LocalController extends Controller
             'tamano' => 'nullable|string|max:255',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
-
+    
         if ($request->hasFile('imagen')) {
-            $path = $request->file('imagen')->store('imagenes', 'public');
-            $validatedData['imagen'] = $path;
+            // Subir imagen a Cloudinary
+            $result = Cloudinary::upload($request->file('imagen')->getRealPath(), [
+                'folder' => 'locales', // Carpeta en Cloudinary
+            ]);
+            $validatedData['imagen'] = $result->getSecurePath(); // URL segura de la imagen
         }
-
+    
         $local = Local::create($validatedData);
-
+    
         return response()->json($local, 201);
     }
 
@@ -49,7 +53,7 @@ class LocalController extends Controller
     public function update(Request $request, $id)
     {
         $local = Local::findOrFail($id);
-
+    
         $validatedData = $request->validate([
             'nombre' => 'sometimes|required|string|max:255',
             'descripcion' => 'nullable|string',
@@ -58,20 +62,20 @@ class LocalController extends Controller
             'tamano' => 'nullable|string|max:255',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
-
+    
         if ($request->hasFile('imagen')) {
-            // Eliminar la imagen antigua si existe
-            if ($local->imagen && Storage::disk('public')->exists($local->imagen)) {
-                Storage::disk('public')->delete($local->imagen);
+            // Subir imagen a Cloudinary y eliminar la anterior (si existe)
+            if ($local->imagen) {
+                Cloudinary::destroy($local->imagen); // Elimina usando el ID del recurso
             }
-
-            // Subir nueva imagen
-            $path = $request->file('imagen')->store('imagenes', 'public');
-            $validatedData['imagen'] = $path;
+            $result = Cloudinary::upload($request->file('imagen')->getRealPath(), [
+                'folder' => 'locales',
+            ]);
+            $validatedData['imagen'] = $result->getSecurePath();
         }
-
+    
         $local->update($validatedData);
-
+    
         return response()->json($local);
     }
 
