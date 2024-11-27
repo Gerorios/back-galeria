@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('locales', function (Blueprint $table) {
-            $table->string('imagen')->nullable();
+        Schema::create('novedades', function (Blueprint $table) {
+            $table->id();
+            $table->string('titulo');
+            $table->text('descripcion');
+            $table->string('imagen_url')->nullable();
+            $table->date('fecha');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('locales', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('novedades');
     }
 };
