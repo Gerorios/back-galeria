@@ -14,11 +14,11 @@ Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->middleware
 // Grupo de rutas protegidas para administradores
 Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
     Route::prefix('locales')->group(function () {
-        Route::get('/', [LocalController::class, 'index']);           // Obtener todos los locales
-        Route::post('/', [LocalController::class, 'store']);          // Crear un nuevo local
-        Route::get('/{id}', [LocalController::class, 'show']);        // Mostrar un local específico
-        Route::put('/{id}', [LocalController::class, 'update']);      // Actualizar un local existente
-        Route::delete('/{id}', [LocalController::class, 'destroy']);  // Eliminar un local
+        Route::get('/', [LocalController::class, 'index']);           
+        Route::post('/', [LocalController::class, 'store']);          
+        Route::get('/{id}', [LocalController::class, 'show']);        
+        Route::put('/{id}', [LocalController::class, 'update']);     
+        Route::delete('/{id}', [LocalController::class, 'destroy']);  
     });
 
     // Rutas para manejar imágenes de locales
